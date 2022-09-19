@@ -3,7 +3,8 @@ const Express = require("express");
 const app = Express();
 const dbConnection = require("./db");
 // TODO: Temp here to register tables, move once controllers are added
-const userModel = require("./models/user");
+const models = require("./models");
+
 // const controllers = require("./controllers");
 
 app.use(Express.json());

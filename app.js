@@ -1,7 +1,9 @@
 require("dotenv").config();
 const Express = require("express");
 const app = Express();
-// const dbConnection = require("./db");
+const dbConnection = require("./db");
+// TODO: Temp here to register tables, move once controllers are added
+const userModel = require("./models/user");
 // const controllers = require("./controllers");
 
 app.use(Express.json());

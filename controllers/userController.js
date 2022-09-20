@@ -3,7 +3,7 @@ const { UserModel } = require("../models");
 const { UniqueConstraintError } = require("sequelize/lib/errors");
 
 router.post("/", async (req, res) => {
-  let {
+  const {
     username,
     password,
     email,
@@ -12,8 +12,6 @@ router.post("/", async (req, res) => {
     notificationPreference,
     isAdmin,
   } = req.body.user;
-
-  //   console.log(req.body.user);
 
   try {
     const User = await UserModel.create({
@@ -48,12 +46,9 @@ router.post("/", async (req, res) => {
 
 // })
 
-// TODO: Create .get for retrieving user data
 router.get("/:id", async (req, res) => {
   try {
     const User = await UserModel.findOne({ where: { id: req.params.id } });
-
-    // console.log(User);
 
     res.status(201).json({
       message: "User account found in database.",
@@ -66,7 +61,40 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// TODO: Create a .put to update user data
+router.put("/:id", async (req, res) => {
+  const {
+    username,
+    password,
+    email,
+    phoneNumber,
+    notifications,
+    notificationPreference,
+    isAdmin,
+  } = req.body.user;
+
+  const User = await UserModel.findOne({ where: { id: req.params.id } });
+
+  const updateData = {
+    username: username,
+    email: email,
+    password: password,
+    phoneNumber: phoneNumber,
+    notifications: notifications,
+    notificationPreference: notificationPreference,
+    isAdmin: isAdmin,
+  };
+
+  User.set(updateData);
+
+  try {
+    const updateUser = await User.save();
+    res.status(200).json(updateUser);
+  } catch (err) {
+    res.status(500).json({
+      message: `Unable to update user account information. Error: ${err}.`,
+    });
+  }
+});
 
 // TODO: Create a .delete to delete user data
 

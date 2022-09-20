@@ -96,7 +96,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// TODO: Create a .delete to delete user data
 router.delete("/:id", async (req, res) => {
   const User = await UserModel.findOne({ where: { id: req.params.id } });
 

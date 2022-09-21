@@ -25,7 +25,26 @@ router.post("/", async (req, res) => {
   }
 });
 
-// TODO: Read instance with get method
+// TODO: Change to not use route param, use validateJWT once constructed
+router.get("/:userId", async (req, res) => {
+  try {
+    const Tasks = await TaskModel.findAll({
+      // TODO: where value will change to { userId: id }
+      where: { userId: null },
+    });
+
+    res.status(200).json({
+      message: "All tasks found in database.",
+      tasks: Tasks,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Failed to locate tasks in database. Error: ${err}.`,
+    });
+  }
+});
+
+// TODO: Read single instances with get method
 
 // TODO: Update instance with put method
 

@@ -8,6 +8,7 @@ const controllers = require("./controllers");
 app.use(express.json());
 
 app.use("/user", controllers.userController);
+app.use("/task", controllers.taskController);
 
 dbConnection
   .authenticate()

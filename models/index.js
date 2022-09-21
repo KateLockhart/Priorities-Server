@@ -9,4 +9,5 @@ CategoryModel.hasMany(TaskModel);
 
 module.exports = {
   UserModel,
+  TaskModel,
 };

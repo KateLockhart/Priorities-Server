@@ -61,7 +61,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// TODO: Update instance with put method
 router.put("/:id", async (req, res) => {
   const { title, description, importanceRating, urgencyRating, completed } =
     req.body.task;
@@ -93,6 +92,19 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// TODO: Delete instance with delete method
+router.delete("/:id", async (req, res) => {
+  const Task = await TaskModel.findOne({ where: { id: req.params.id } });
+
+  try {
+    await Task.destroy();
+    res.status(200).json({
+      message: `Task deleted. Task ID ${Task.dataValues.id} removed from database.`,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Unable to delete task. Error: ${err}.`,
+    });
+  }
+});
 
 module.exports = router;

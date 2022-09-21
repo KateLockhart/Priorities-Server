@@ -25,8 +25,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-// TODO: Change to not use route param, use validateJWT once constructed
-router.get("/:userId", async (req, res) => {
+// TODO: Change to not use route param, use validateJWT once constructed, final route of "/"
+router.get("/all/:userId", async (req, res) => {
   try {
     const Tasks = await TaskModel.findAll({
       // TODO: where value will change to { userId: id }
@@ -44,7 +44,22 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
-// TODO: Read single instances with get method
+router.get("/:id", async (req, res) => {
+  try {
+    const Task = await TaskModel.findOne({
+      where: { id: req.params.id },
+    });
+
+    res.status(200).json({
+      message: "Task successfully found in database.",
+      task: Task,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Failed to locate task in database. Error: ${err}.`,
+    });
+  }
+});
 
 // TODO: Update instance with put method
 

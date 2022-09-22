@@ -81,8 +81,8 @@ router.put("/:id", async (req, res) => {
 
   try {
     const updateTask = await Task.save();
-    res.status(201).json({
-      message: "Task updated successfully.",
+    res.status(200).json({
+      message: `Task ID ${Task.dataValues.id} updated successfully.`,
       updateTask,
     });
   } catch (err) {

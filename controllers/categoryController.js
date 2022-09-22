@@ -21,9 +21,41 @@ router.post("/", async (req, res) => {
   }
 });
 
-// TODO: Read all instances of categories with get
+// TODO: Change to not use route param, use validateJWT once constructed, final route of "/"
+router.get("/all/:userId", async (req, res) => {
+  try {
+    const Categories = await CategoryModel.findAll({
+      // TODO: where value will change to { userId: id }
+      where: { userId: null },
+    });
 
-// TODO: Read single instance of category with get
+    res.status(200).json({
+      message: "All tasks found in database.",
+      categories: Categories,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Failed to locate categories in database. Error: ${err}.`,
+    });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const Category = await CategoryModel.findOne({
+      where: { id: req.params.id },
+    });
+
+    res.status(200).json({
+      message: "Category successfully found in database.",
+      category: Category,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Failed to locate category in database. Error: ${err}.`,
+    });
+  }
+});
 
 // TODO: Update instance of category with put
 

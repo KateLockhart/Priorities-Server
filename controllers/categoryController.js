@@ -57,7 +57,32 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// TODO: Update instance of category with put
+router.put("/:id", async (req, res) => {
+  const { title, color } = req.body.category;
+
+  const Category = await CategoryModel.findOne({
+    where: { id: req.params.id },
+  });
+
+  const updateCategory = {
+    title: title,
+    color: color,
+  };
+
+  Category.set(updateCategory);
+
+  try {
+    const updateCategory = await Category.save();
+    res.status(200).json({
+      message: `Category ID ${Category.dataValues.id} successfully updated.`,
+      updateCategory,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Failed to update category in database. Error ${err}.`,
+    });
+  }
+});
 
 // TODO: Delete instance of category with delete
 

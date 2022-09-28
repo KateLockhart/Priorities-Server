@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const { UserModel } = require("../models");
 const { UniqueConstraintError } = require("sequelize/lib/errors");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 router.post("/", async (req, res) => {
   const {
@@ -17,32 +19,37 @@ router.post("/", async (req, res) => {
     const User = await UserModel.create({
       username: username,
       email: email,
-      password: password,
+      password: bcrypt.hashSync(password, 13),
       phoneNumber: phoneNumber,
       notifications: notifications,
       notificationPreference: notificationPreference,
       isAdmin: isAdmin,
     });
 
+    let token = jwt.sign({ id: User.id }, process.env.JWT_SECRET, {
+      expiresIn: 60 * 60 * 24,
+    });
+
     res.status(201).json({
       message: "User successfully registered account.",
       user: User,
+      sessionToken: token,
     });
   } catch (err) {
     if (err instanceof UniqueConstraintError) {
       res.status(409).json({
-        message: `${UniqueConstraintError.cause} is already in use and must be unique.`,
+        message: `Email is already in use and must be unique.`,
       });
     } else {
       res.status(500).json({
-        message: `Failed to create user account. \r\n Error: ${err}.`,
+        message: `Failed to create user account. Error: ${err}.`,
       });
     }
   }
 });
 
 // TODO: Create .post for user login
-// router.post("/", async ( req, res ) => {
+// router.post("/login", async ( req, res ) => {
 
 // })
 
@@ -56,7 +63,7 @@ router.get("/:id", async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({
-      message: `Failed to locate user in database. \r\n Error: ${err}.`,
+      message: `Failed to locate user in database. Error: ${err}.`,
     });
   }
 });

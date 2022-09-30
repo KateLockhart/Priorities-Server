@@ -12,6 +12,8 @@
 - [PostgreSQL](https://www.postgresql.org/), open source object-relational database system.
 - [pgAdmin 4](https://www.pgadmin.org/), management tool and graphical interface for Postgres database.
 - [dotenv](https://www.npmjs.com/package/dotenv), zero-dependency module to allow environment variables from the local .env file to be loaded in as process.env.
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken), encoded JSON object with payload of digitally signed authentication.
+- [bcrypt.js](https://www.npmjs.com/package/bcryptjs), an adaptive function using salt to create more encryption security to hash sensitive information.
 <!-- #### Summary
 
 #### Case Study -->
